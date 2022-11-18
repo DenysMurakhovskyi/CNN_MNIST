@@ -28,9 +28,6 @@ class TheWindow(qw.QMainWindow):
         self.ui.lcdNumber.display(-1)
         self.ui.progressBar.setValue(0)
 
-        self.drawing = False
-        self.lastPoint = QPoint()
-
         self.logger = logging.getLogger('app_logger')
         logging.getLogger('app_logger').setLevel(logging.DEBUG)
 
