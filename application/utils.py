@@ -4,18 +4,25 @@ from numpy.typing import NDArray
 from typing import Tuple
 
 THRESHOLD = 100
+FINAL_SIZE = 28
 
 
 class Utils:
 
     @classmethod
     def get_formatted_image_as_ndarray(cls, pil_im: Image) -> NDArray:
+        """
+        Converts an image of the number into NumPy array
+        """
         pil_im = cls._get_cropped_image(cls._get_bw_image(pil_im))
-        pil_im = pil_im.resize((28, 28), resample=1)
+        pil_im = pil_im.resize((FINAL_SIZE, FINAL_SIZE), resample=1)
         return np.array(cls._get_bw_image(pil_im))
 
     @staticmethod
     def _get_bw_image(img: Image) -> Image:
+        """
+        Converts image into a black-white one
+        """
         grayscale = ImageOps.grayscale(img)
         np_img = np.array(grayscale)
         np_img = np.vectorize(lambda x: 0 if x < THRESHOLD else 255)(np_img)
@@ -23,6 +30,9 @@ class Utils:
 
     @classmethod
     def _get_cropped_image(cls, img: Image) -> Image:
+        """
+        Crops the image (converts the image into a squared one)
+        """
         img_np = np.array(img)
         boundaries = cls._get_boundaries(img_np)
         img_np = img_np[boundaries[0]: boundaries[2], boundaries[1]: boundaries[3]]
@@ -30,6 +40,9 @@ class Utils:
 
     @staticmethod
     def _get_boundaries(np_img: NDArray) -> Tuple:
+        """
+        Gets boundaries of the image
+        """
         x = {k: v for k, v in enumerate(np_img.sum(axis=1) / np_img.shape[1])}
         y = {k: v for k, v in enumerate(np_img.sum(axis=0) / np_img.shape[0])}
 
