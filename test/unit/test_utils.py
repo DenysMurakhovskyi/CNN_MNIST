@@ -16,4 +16,13 @@ class UtilsTest(TestCase):
     def test_bw_image(self):
         bw_image = Utils._get_bw_image(self.img)
         assert_array_equal(np.array([0, 255]), np.unique(np.array(bw_image)))
+        self.assertEqual((200, 160), np.array(bw_image).shape)
+
+    def test_get_boundaries(self):
+        actual = Utils._get_boundaries(np.array(Utils._get_bw_image(self.img)))
+        self.assertEqual((25, 30, 174, 123), actual)
+
+    def test_full_process(self):
+        img_np = Utils.get_formatted_image_as_ndarray(self.img)
+        Image.fromarray(img_np).show()
 
