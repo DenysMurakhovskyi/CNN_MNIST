@@ -1,17 +1,12 @@
-import os
 from io import BytesIO
+from typing import Tuple, Union
 
 import PIL.Image
-import numpy as np
-from PIL import Image, ImageOps
+from PIL import Image
 from PySide6.QtCore import QBuffer, QByteArray, QIODevice, QRect
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QPainter, QPen
 from PySide6.QtWidgets import QLabel
-from numpy.typing import ArrayLike
-from typing import Tuple, Union
-
-THRESHOLD = 100
 
 
 class Canvas(QLabel):
@@ -64,7 +59,7 @@ class Canvas(QLabel):
         self.setPixmap(self.myPixmap)
         self.update()
 
-    def get_the_image_as_array(self) -> PIL.Image.Image:
+    def get_the_image(self) -> PIL.Image.Image:
         """
         Returns image as a numpy array
         """

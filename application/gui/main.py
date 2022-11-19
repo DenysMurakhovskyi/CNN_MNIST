@@ -19,9 +19,10 @@ class TheWindow(qw.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.ui.pushButton_2.clicked.connect(self.ui.figure.get_the_image_as_array)
-        self.ui.pushButton.clicked.connect(self.close)
+        self.ui.processButton.clicked.connect(self.process_image)
+        self.ui.exitButton.clicked.connect(self.close)
         self.ui.clearButton.clicked.connect(self.ui.figure.clear_the_field)
+        self.ui.saveButton.clicked.connect(self.save_the_image)
 
         self.ui.lcdNumber.display(-1)
         self.ui.progressBar.setValue(0)
@@ -29,9 +30,15 @@ class TheWindow(qw.QMainWindow):
         self.logger = logging.getLogger('app_logger')
         logging.getLogger('app_logger').setLevel(logging.DEBUG)
 
-    def _run_sync(self):
-        self.ui.pushButton_2.setDisabled(True)
+    def process_image(self):
+        self.ui.processButton.setDisabled(True)
+        img_np = self.ui.figure.get_the_image()
         # synchronizer = SyncRunner()
         # synchronizer.signals.message_signal.connect(self._show_message)
         # synchronizer.signals.finish_signal.connect(self._enable_button)
         # QThreadPool().start(synchronizer)
+
+    def save_the_image(self):
+        file_name, _ = qw.QFileDialog.getSaveFileName(self, 'Save File', '', "Image files (*.png)")
+        img = self.ui.figure.get_the_image()
+        img.save(file_name, bitmap_format='png')

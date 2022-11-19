@@ -39,9 +39,9 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.progressBar)
 
-        self.pushButton_2 = QPushButton(self.verticalLayoutWidget)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-        self.verticalLayout.addWidget(self.pushButton_2)
+        self.processButton = QPushButton(self.verticalLayoutWidget)
+        self.processButton.setObjectName(u"processButton")
+        self.verticalLayout.addWidget(self.processButton)
 
         self.clearButton = QPushButton(self.verticalLayoutWidget)
         self.clearButton.setObjectName(u"clearButton")
@@ -51,9 +51,9 @@ class Ui_MainWindow(object):
         self.saveButton.setObjectName(u"saveButton")
         self.verticalLayout.addWidget(self.saveButton)
 
-        self.pushButton = QPushButton(self.verticalLayoutWidget)
-        self.pushButton.setObjectName(u"pushButton")
-        self.verticalLayout.addWidget(self.pushButton)
+        self.exitButton = QPushButton(self.verticalLayoutWidget)
+        self.exitButton.setObjectName(u"exitButton")
+        self.verticalLayout.addWidget(self.exitButton)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
@@ -67,9 +67,9 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Recognize", None))
+        self.processButton.setText(QCoreApplication.translate("MainWindow", u"Recognize", None))
         self.clearButton.setText(QCoreApplication.translate("MainWindow", u"Clear", None))
         self.saveButton.setText(QCoreApplication.translate("MainWindow", u"Save to...", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
+        self.exitButton.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
     # retranslateUi
 
