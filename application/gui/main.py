@@ -38,5 +38,6 @@ class TheWindow(qw.QMainWindow):
 
     def save_the_image(self):
         file_name, _ = qw.QFileDialog.getSaveFileName(self, 'Save File', '', "Image files (*.png)")
-        img = self.ui.figure.get_the_image()
-        img.save(file_name, bitmap_format='png')
+        if file_name:
+            img = self.ui.figure.get_the_image()
+            img.save(file_name, bitmap_format='png')
