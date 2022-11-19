@@ -24,15 +24,14 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.setFixedSize(340, 210)
+        MainWindow.setFixedSize(340, 250)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.figure = Canvas(self.centralwidget)
-        self.figure.setGeometry(QRect(18, 15, 160, 160))
+        self.figure = Canvas(QRect(18, 15, 160, 200), parent=self.centralwidget)
         self.figure.setStyleSheet('background-color: grey;')
         self.verticalLayoutWidget = QWidget(self.centralwidget)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(190, 10, 130, 170))
+        self.verticalLayoutWidget.setGeometry(QRect(190, 10, 130, 210))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(3, 3, 3, 3)
@@ -55,6 +54,10 @@ class Ui_MainWindow(object):
         self.clearButton.setObjectName(u"clearButton")
         self.verticalLayout.addWidget(self.clearButton)
 
+        self.saveButton = QPushButton(self.verticalLayoutWidget)
+        self.saveButton.setObjectName(u"saveButton")
+        self.verticalLayout.addWidget(self.saveButton)
+
         self.pushButton = QPushButton(self.verticalLayoutWidget)
         self.pushButton.setObjectName(u"pushButton")
         self.verticalLayout.addWidget(self.pushButton)
@@ -73,6 +76,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Recognize", None))
         self.clearButton.setText(QCoreApplication.translate("MainWindow", u"Clear", None))
+        self.saveButton.setText(QCoreApplication.translate("MainWindow", u"Save to...", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
     # retranslateUi
 

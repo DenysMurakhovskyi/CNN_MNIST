@@ -3,26 +3,29 @@ from io import BytesIO
 
 import numpy as np
 from PIL import Image, ImageOps
-from PySide6.QtCore import QBuffer, QByteArray, QIODevice
+from PySide6.QtCore import QBuffer, QByteArray, QIODevice, QRect
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QPainter, QPen
 from PySide6.QtWidgets import QLabel
 from numpy.typing import ArrayLike
+from typing import Tuple, Union
 
 THRESHOLD = 100
 
 
 class Canvas(QLabel):
-    def __init__(self, parent=None):
+    def __init__(self, size: Union[Tuple, QRect], parent=None):
         super().__init__(parent)
+        self.setGeometry(size)
+        self.size_x, self.size_y = size.size().width(), size.size().height()
         p = self.palette()
         p.setColor(self.backgroundRole(), Qt.white)
         self.setAutoFillBackground(True)
         self.setPalette(p)
-        self.myPixmap = QPixmap(160, 160)
+        self.myPixmap = QPixmap(self.size_x, self.size_y)
         self.painter = QPainter(self.myPixmap)
         self.painter.setPen(QPen(Qt.black, 10))
-        self.painter.fillRect(0, 0, 160, 160, Qt.white)
+        self.painter.fillRect(0, 0, self.size_x, self.size_y, Qt.white)
         self.setPixmap(self.myPixmap)
         self.last = None
 
@@ -55,7 +58,7 @@ class Canvas(QLabel):
         """
         Clears the canvas
         """
-        self.painter.fillRect(0, 0, 160, 160, Qt.white)
+        self.painter.fillRect(0, 0, self.size_x, self.size_y, Qt.white)
         self.last = None
         self.setPixmap(self.myPixmap)
         self.update()
