@@ -1,10 +1,8 @@
 import logging
 
 from PySide6 import QtWidgets as qw
-from PySide6.QtCore import QPoint
 
-
-from application.main_window import Ui_MainWindow
+from application.gui.main_window import Ui_MainWindow
 
 
 class TheWindow(qw.QMainWindow):

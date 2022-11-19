@@ -1,6 +1,7 @@
 import os
 from io import BytesIO
 
+import PIL.Image
 import numpy as np
 from PIL import Image, ImageOps
 from PySide6.QtCore import QBuffer, QByteArray, QIODevice, QRect
@@ -63,7 +64,7 @@ class Canvas(QLabel):
         self.setPixmap(self.myPixmap)
         self.update()
 
-    def get_the_image_as_array(self) -> ArrayLike:
+    def get_the_image_as_array(self) -> PIL.Image.Image:
         """
         Returns image as a numpy array
         """
@@ -74,15 +75,5 @@ class Canvas(QLabel):
         self.myPixmap.save(buffer, 'PNG')
 
         # gets image using Pillow
-        pil_im = Image.open(BytesIO(buffer.data()))  # image getter
-        grayscale = ImageOps.grayscale(pil_im).resize((20, 20), resample=1)  # image grayscale
-        np_img = np.array(grayscale)  # image to a NumPy array
-        np_img = np.vectorize(lambda x: 0 if x < THRESHOLD else 255)(np_img)  # gets black/white image (binary)
+        return Image.open(BytesIO(buffer.data()))  # image getter
 
-        # shows image for debug purpose only
-        if os.environ.get('DEBUG', '0') == '1':
-            img = Image.fromarray(np_img)
-            img.show()
-
-        # returns image as a numpy array
-        return np_img
