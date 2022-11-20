@@ -22,6 +22,11 @@ class UtilsTest(TestCase):
         actual = Utils._get_boundaries(np.array(Utils._get_gscale_image(self.img)))
         self.assertEqual((1, 49, 173, 157), actual)
 
+    def test_paste_on_black_square(self):
+        pil_im = Utils._get_cropped_image(Utils._get_gscale_image(self.img))
+        pil_im = pil_im.resize((20, 20), resample=1)
+        actual = Utils._paste_on_black_square(pil_im)
+
     def test_full_process(self):
         img = Utils.get_formatted_image(self.img, as_ndarray=False)
         img.show()

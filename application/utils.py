@@ -4,7 +4,8 @@ from numpy.typing import NDArray
 from typing import Tuple, Union
 
 THRESHOLD = 100
-FINAL_SIZE = 28
+FINAL_SIZE = 20
+MNIST_SIZE = 28
 
 
 class Utils:
@@ -16,7 +17,7 @@ class Utils:
         """
         pil_im = cls._get_cropped_image(cls._get_gscale_image(pil_im))
         pil_im = pil_im.resize((FINAL_SIZE, FINAL_SIZE), resample=1)
-        pil_im = cls._get_gscale_image(pil_im, inverse=False)
+        pil_im = cls._paste_on_black_square(pil_im)
         return np.array(pil_im) if as_ndarray else pil_im
 
     @staticmethod
@@ -24,7 +25,7 @@ class Utils:
         """
         Converts image into a black-white one
         """
-        converted_image = img.convert('L')
+        converted_image = img.convert('1')
         return ImageOps.invert(converted_image) if inverse else converted_image
 
     @classmethod
@@ -38,15 +39,26 @@ class Utils:
         return Image.fromarray(img_np)
 
     @staticmethod
-    def _get_boundaries(np_img: NDArray) -> Tuple:
+    def _get_boundaries(np_img: NDArray, inverted_image=True) -> Tuple:
         """
         Gets boundaries of the image
         """
         x = {k: v for k, v in enumerate(np_img.sum(axis=1) / np_img.shape[1])}
         y = {k: v for k, v in enumerate(np_img.sum(axis=0) / np_img.shape[0])}
 
-        x = list(filter(lambda z: z[1] > 0, x.items()))
-        y = list(filter(lambda z: z[1] > 0, y.items()))
+        if inverted_image:
+            x = list(filter(lambda z: z[1] > 0, x.items()))
+            y = list(filter(lambda z: z[1] > 0, y.items()))
+        else:
+            x = list(filter(lambda z: z[1] < 255, x.items()))
+            y = list(filter(lambda z: z[1] < 255, y.items()))
 
         return min(x)[0], min(y)[0], max(x)[0], max(y)[0]
+
+    @staticmethod
+    def _paste_on_black_square(img: Image) -> Image:
+        modified_image = Image.fromarray(np.zeros((MNIST_SIZE, MNIST_SIZE)))
+        start_position = int((MNIST_SIZE - FINAL_SIZE) / 2)
+        modified_image.paste(img, (start_position, start_position))
+        return modified_image
 
