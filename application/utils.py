@@ -16,16 +16,18 @@ class Utils:
         """
         pil_im = cls._get_cropped_image(cls._get_bw_image(pil_im))
         pil_im = pil_im.resize((FINAL_SIZE, FINAL_SIZE), resample=1)
-        return np.array(cls._get_bw_image(pil_im))
+        return np.array(cls._get_bw_image(pil_im, inverse=False))
 
     @staticmethod
-    def _get_bw_image(img: Image) -> Image:
+    def _get_bw_image(img: Image, inverse=True) -> Image:
         """
         Converts image into a black-white one
         """
         grayscale = ImageOps.grayscale(img)
         np_img = np.array(grayscale)
         np_img = np.vectorize(lambda x: 0 if x < THRESHOLD else 255)(np_img)
+        if inverse:
+            np_img = 255 - np_img
         return Image.fromarray(np_img)
 
     @classmethod
@@ -50,3 +52,4 @@ class Utils:
         y = list(filter(lambda z: z[1] < 255, y.items()))
 
         return min(x)[0], min(y)[0], max(x)[0], max(y)[0]
+

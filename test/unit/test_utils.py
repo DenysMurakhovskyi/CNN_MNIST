@@ -14,7 +14,7 @@ class UtilsTest(TestCase):
         self.img = Image.open(path)
 
     def test_bw_image(self):
-        bw_image = Utils._get_bw_image(self.img)
+        bw_image = Utils._get_bw_image(self.img, inverse=False)
         assert_array_equal(np.array([0, 255]), np.unique(np.array(bw_image)))
         self.assertEqual((200, 160), np.array(bw_image).shape)
 
