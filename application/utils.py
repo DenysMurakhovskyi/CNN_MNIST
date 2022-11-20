@@ -14,17 +14,17 @@ class Utils:
         """
         Converts an image of the number into NumPy array
         """
-        pil_im = cls._get_cropped_image(cls._get_bw_image(pil_im))
+        pil_im = cls._get_cropped_image(cls._get_gscale_image(pil_im))
         pil_im = pil_im.resize((FINAL_SIZE, FINAL_SIZE), resample=1)
-        pil_im = cls._get_bw_image(pil_im, inverse=False)
+        pil_im = cls._get_gscale_image(pil_im, inverse=False)
         return np.array(pil_im) if as_ndarray else pil_im
 
     @staticmethod
-    def _get_bw_image(img: Image, inverse=True) -> Image:
+    def _get_gscale_image(img: Image, inverse=True) -> Image:
         """
         Converts image into a black-white one
         """
-        converted_image = img.convert('L').point(lambda x: 255 if x > THRESHOLD else 0, mode='1')
+        converted_image = img.convert('L')
         return ImageOps.invert(converted_image) if inverse else converted_image
 
     @classmethod
