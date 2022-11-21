@@ -11,7 +11,7 @@
 from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect)
 from PySide6.QtWidgets import (QLCDNumber, QProgressBar, QPushButton, QStatusBar,
                                QVBoxLayout, QWidget)
-from application.gui.canvas import Canvas
+from application.canvas import Canvas
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -32,12 +32,6 @@ class Ui_MainWindow(object):
         self.lcdNumber.setObjectName(u"lcdNumber")
 
         self.verticalLayout.addWidget(self.lcdNumber)
-
-        self.progressBar = QProgressBar(self.verticalLayoutWidget)
-        self.progressBar.setObjectName(u"progressBar")
-        self.progressBar.setValue(24)
-
-        self.verticalLayout.addWidget(self.progressBar)
 
         self.processButton = QPushButton(self.verticalLayoutWidget)
         self.processButton.setObjectName(u"processButton")

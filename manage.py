@@ -1,6 +1,6 @@
 from PySide6 import QtWidgets as qw
 import sys
-from application.gui.main import TheWindow
+from application.main import TheWindow
 
 
 if __name__ == '__main__':

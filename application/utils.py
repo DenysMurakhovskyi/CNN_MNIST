@@ -9,6 +9,9 @@ MNIST_SIZE = 28
 
 
 class Utils:
+    """
+    Class for image preprocessing (before recognition)
+    """
 
     @classmethod
     def get_formatted_image(cls, pil_im: Image, as_ndarray=True) -> Union[Image.Image, NDArray]:
@@ -57,6 +60,9 @@ class Utils:
 
     @staticmethod
     def _paste_on_black_square(img: Image) -> Image:
+        """
+        Pastes 20x20 image on the black square with size 28x28
+        """
         modified_image = Image.fromarray(np.zeros((MNIST_SIZE, MNIST_SIZE)))
         start_position = int((MNIST_SIZE - FINAL_SIZE) / 2)
         modified_image.paste(img, (start_position, start_position))

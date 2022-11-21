@@ -1,8 +1,10 @@
 import logging
 
+import numpy as np
 from PySide6 import QtWidgets as qw
 
-from application.gui.main_window import Ui_MainWindow
+from application import model
+from application.main_window import Ui_MainWindow
 from application.utils import Utils
 
 
@@ -22,21 +24,38 @@ class TheWindow(qw.QMainWindow):
 
         self.ui.processButton.clicked.connect(self.process_image)
         self.ui.exitButton.clicked.connect(self.close)
-        self.ui.clearButton.clicked.connect(self.ui.figure.clear_the_field)
+        self.ui.clearButton.clicked.connect(self.clear)
         self.ui.saveButton.clicked.connect(self.save_the_image)
 
         self.ui.lcdNumber.display(-1)
-        self.ui.progressBar.setValue(0)
 
         self.logger = logging.getLogger('app_logger')
         logging.getLogger('app_logger').setLevel(logging.DEBUG)
 
     def process_image(self):
+        """
+        Image recognition
+        """
         self.ui.processButton.setDisabled(True)
         pillow_img = self.ui.figure.get_the_image()
-        numpy_img = Utils.get_formatted_image(pillow_img)
+        image_np = Utils.get_formatted_image(pillow_img).reshape((28, 28, 1))
+        prediction = model.predict(np.array([(np.array(image_np) / 255).astype('int')]))
+        prediction = dict(sorted({v: k for k, v in enumerate(list(prediction)[0])}.items(), reverse=True))
+        most_prob_value = list(prediction.items())[0][1]
+        self.ui.lcdNumber.display(most_prob_value)
+        self.ui.processButton.setDisabled(False)
+
+    def clear(self):
+        """
+        Clears the canvas, resets the LCD indicator
+        """
+        self.ui.figure.clear_the_field()
+        self.ui.lcdNumber.display(-1)
 
     def save_the_image(self):
+        """
+        Saves the image to a PNG file
+        """
         file_name, _ = qw.QFileDialog.getSaveFileName(self, 'Save File', '', "Image files (*.png)")
         if file_name:
             img = self.ui.figure.get_the_image()
