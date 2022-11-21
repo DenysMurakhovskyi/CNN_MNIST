@@ -1,5 +1,3 @@
-import logging
-
 import numpy as np
 from PySide6 import QtWidgets as qw
 
@@ -29,20 +27,19 @@ class TheWindow(qw.QMainWindow):
 
         self.ui.lcdNumber.display(-1)
 
-        self.logger = logging.getLogger('app_logger')
-        logging.getLogger('app_logger').setLevel(logging.DEBUG)
-
     def process_image(self):
         """
         Image recognition
         """
         self.ui.processButton.setDisabled(True)
-        pillow_img = self.ui.figure.get_the_image()
-        image_np = Utils.get_formatted_image(pillow_img).reshape((28, 28, 1))
+
+        image_np = Utils.get_formatted_image(self.ui.figure.get_the_image()).reshape((28, 28, 1))
         prediction = model.predict(np.array([(np.array(image_np) / 255).astype('int')]))
-        prediction = dict(sorted({v: k for k, v in enumerate(list(prediction)[0])}.items(), reverse=True))
-        most_prob_value = list(prediction.items())[0][1]
+        most_prob_value  = list(sorted({v: k for k, v in enumerate(list(prediction)[0])}.items(),
+                                       reverse=True))[0][1]
+
         self.ui.lcdNumber.display(most_prob_value)
+
         self.ui.processButton.setDisabled(False)
 
     def clear(self):

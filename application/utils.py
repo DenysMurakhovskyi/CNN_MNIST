@@ -49,12 +49,8 @@ class Utils:
         x = {k: v for k, v in enumerate(np_img.sum(axis=1) / np_img.shape[1])}
         y = {k: v for k, v in enumerate(np_img.sum(axis=0) / np_img.shape[0])}
 
-        if inverted_image:
-            x = list(filter(lambda z: z[1] > 0, x.items()))
-            y = list(filter(lambda z: z[1] > 0, y.items()))
-        else:
-            x = list(filter(lambda z: z[1] < 255, x.items()))
-            y = list(filter(lambda z: z[1] < 255, y.items()))
+        x = list(filter(lambda z: (z[1] > 0) if inverted_image else (z[1] < 255), x.items()))
+        y = list(filter(lambda z: (z[1] > 0) if inverted_image else (z[1] < 255), y.items()))
 
         return min(x)[0], min(y)[0], max(x)[0], max(y)[0]
 
@@ -64,7 +60,6 @@ class Utils:
         Pastes 20x20 image on the black square with size 28x28
         """
         modified_image = Image.fromarray(np.zeros((MNIST_SIZE, MNIST_SIZE)))
-        start_position = int((MNIST_SIZE - FINAL_SIZE) / 2)
-        modified_image.paste(img, (start_position, start_position))
+        modified_image.paste(img, ((start_position := int((MNIST_SIZE - FINAL_SIZE) / 2)), start_position))
         return modified_image
 
