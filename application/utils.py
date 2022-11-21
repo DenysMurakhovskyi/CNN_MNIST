@@ -60,6 +60,7 @@ class Utils:
         Pastes 20x20 image on the black square with size 28x28
         """
         modified_image = Image.fromarray(np.zeros((MNIST_SIZE, MNIST_SIZE)))
-        modified_image.paste(img, ((start_position := int((MNIST_SIZE - FINAL_SIZE) / 2)), start_position))
+        start_position = int((MNIST_SIZE - FINAL_SIZE) / 2)
+        modified_image.paste(img, (start_position, start_position))
         return modified_image
 

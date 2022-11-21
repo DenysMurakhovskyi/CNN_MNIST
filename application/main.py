@@ -35,8 +35,8 @@ class TheWindow(qw.QMainWindow):
 
         image_np = Utils.get_formatted_image(self.ui.figure.get_the_image()).reshape((28, 28, 1))
         prediction = model.predict(np.array([(np.array(image_np) / 255).astype('int')]))
-        most_prob_value  = list(sorted({v: k for k, v in enumerate(list(prediction)[0])}.items(),
-                                       reverse=True))[0][1]
+        most_prob_value = list(sorted({v: k for k, v in enumerate(list(prediction)[0])}.items(),
+                                      reverse=True))[0][1]
 
         self.ui.lcdNumber.display(most_prob_value)
 
